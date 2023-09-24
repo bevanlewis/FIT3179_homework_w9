@@ -14,11 +14,10 @@
   <body>
     <h1>Energy consumption</h1>
     <div id="choropleth_map"></div>
-    <div id="symbol_map"></div>
+    <script>
+      let vg_1 = "choropleth_map.vg.json";
 
-    <script type="text/javascript">
-      var spec2 = "js/choropleth_map.vg.json";
-      vegaEmbed("#symbol_map", spec2)
+      vegaEmbed("#choropleth_map", vg_1)
         .then(function (result) {
           // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
         })
