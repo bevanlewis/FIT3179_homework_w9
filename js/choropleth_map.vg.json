@@ -1,0 +1,67 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 500,
+  "height": 300,
+  "projection": { "type": "equalEarth" },
+  "title": "Energy Consumption",
+  "data": {
+    "url": "ne_110m_admin_0_countries.topojson",
+    "format": { "type": "topojson", "feature": "ne_110m_admin_0_countries" }
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+        "format": { "type": "topojson", "feature": "oceans" }
+      },
+      "mark": { "type": "geoshape", "fill": "skyblue" }
+    },
+    {
+      "data": {
+        "url": "ne_110m_graticules_30.topojson",
+        "format": { "type": "topojson", "feature": "ne_110m_graticules_30" }
+      },
+      "mark": { "type": "geoshape", "fill": null, "stroke": "white" }
+    },
+    {
+      "data": {
+        "url": "ne_110m_admin_0_countries.topojson",
+        "format": { "type": "topojson", "feature": "ne_110m_admin_0_countries" }
+      },
+      "mark": { "type": "geoshape", "fill": "lightgray", "stroke": "white" },
+      "encoding": {
+        "tooltip": [
+          { "field": "properties.NAME", "type": "nominal", "title": "Country" }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "lookup": "properties.ADM0_A3",
+          "from": {
+            "data": {
+              "url": "../data/per-capita-energy-use-clean.csv"
+            },
+            "key": "Code",
+            "fields": ["Energy"]
+          }
+        },
+        { "calculate": "datum.Energy + 0.1", "as": "Energy consumption" }
+      ],
+      "mark": { "type": "geoshape" },
+      "encoding": {
+        "color": {
+          "field": "Energy",
+          "type": "quantitative",
+          "scale": { "type": "log" }
+        },
+        "tooltip": [
+          { "field": "properties.NAME", "type": "nominal", "title": "Country" },
+          { "field": "Energy", "type": "quantitative" }
+        ]
+      }
+    }
+  ],
+  "config": {}
+}
